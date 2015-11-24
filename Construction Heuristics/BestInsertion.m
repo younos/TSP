@@ -1,4 +1,4 @@
-function [ sigma ] = BestInsertion( DM )
+function [ AM ] = BestInsertion( DM )
 % Best Insertion method applied on a Distance Matrix
     % Extract the number of nodes
 	n_total = length(DM);
@@ -24,7 +24,7 @@ function [ sigma ] = BestInsertion( DM )
         % Initalize the vector that will have the delta length of the
         % new path depending on where we inserted the selected node
         delta_length = zeros(1, n_sigma);
-        % Begin the compute the length when inserting the new node after
+        % Begin to compute the length when inserting the new node after
         % node i
         for i=1:n_sigma
             delta_length(i) = DM(sigma(i), node) + DM(node, sigma(mod(i,n_sigma)+1)) ...
@@ -38,5 +38,6 @@ function [ sigma ] = BestInsertion( DM )
         % Increment n_sigma
         n_sigma = n_sigma + 1;
     end
+    AM = SigmaToAM(sigma);
 end
 
