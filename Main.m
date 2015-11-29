@@ -12,19 +12,23 @@ nodes = importdata('TSP_411.txt', ' ');
 % Compute the distance matrix
 DM = squareform(pdist(nodes(:,1:2)));
 
-% Apply the tests on the Best Insertion method
-ApplyTests('BestInsertion', DM);
+% Run the tests for the Best Insertion method
+method = BestInsertionHeuristic(DM);
+method.runTests;
 
-% Apply the tests on the Shortest Edge method
-ApplyTests('ShortestEdge', DM);
+% Run the tests for the Shortest Edge method
+method = ShortestEdgeHeuristic(DM);
+method.runTests;
 
-% Apply the tests on the Saving Heuristics method
-ApplyTests('SavingHeuristics', DM);
+% Run the tests for the Saving Heuristics method
+%method = SavingHeuristicsHeuristic(DM);
+%method.runTests;
 
-% Apply the tests on the Greedy Local Search method
-ApplyTests('LocalSearch', DM);
+% Run the tests for the Greedy Local Search method
+%ApplyTests('LocalSearch', DM);
+%method = LocalSearchHeuristic(DM);
+%method.runTests;
 
-% Apply the tests on the Simulated Annealing method
-ApplyTests('SimulatedAnnealing', DM);
-
-
+% Run the tests for the Simulated Annealing method
+%method = SimulatedAnnealingHeuristic(DM);
+%method.runTests;
