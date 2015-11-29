@@ -8,9 +8,8 @@ addpath('Improvement Heuristics');
 
 % Import the data
 nodes = importdata('TSP_411.txt', ' ');
-
 % Compute the distance matrix
-DM = squareform(pdist(nodes(:,1:2)));
+DM = squareform(pdist(nodes(:,2:3)));
 
 % Run the tests for the Best Insertion method
 method = BestInsertionHeuristic(DM);
@@ -21,8 +20,8 @@ method = ShortestEdgeHeuristic(DM);
 method.runTests;
 
 % Run the tests for the Saving Heuristics method
-%method = SavingHeuristicsHeuristic(DM);
-%method.runTests;
+method = SavingHeuristic(DM);
+method.runTests;
 
 % Run the tests for the Greedy Local Search method
 %ApplyTests('LocalSearch', DM);
