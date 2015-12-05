@@ -43,7 +43,7 @@ classdef (Abstract) Heuristic < handle
             obj.move_type = type;
         end
         % Find the next neighbour (with delta length) using a small move of type 'type'
-        function [sigma_bis, delta] = smallMove(obj, sigma, type)
+        function [sigma_new, delta] = smallMove(obj, sigma, type)
             % Choose randomly first node i and compute i_plus
             i = randi(obj.n_total);
             i_plus = mod(i, obj.n_total) + 1;
@@ -55,14 +55,14 @@ classdef (Abstract) Heuristic < handle
                     while i == j
                         j = randi(obj.n_total);
                     end
-                    % Swap i and j in sigma_bis
-                    sigma_bis = sigma;
-                    sigma_bis([i j]) = sigma_bis([j i]);
+                    % Swap i and j in sigma_new
+                    sigma_new = sigma;
+                    sigma_new([i j]) = sigma_new([j i]);
                     % Find i-, j+ and j-
                     i_minus = mod(i+(obj.n_total-2), obj.n_total) + 1;
                     j_plus = mod(j, obj.n_total) + 1;
                     j_minus = mod(j+(obj.n_total-2), obj.n_total) + 1;
-                    % Compute the difference of length between sigma bis
+                    % Compute the difference of length between sigma new
                     % and sigma
                     if i_plus == j
                         delta = obj.DM(sigma(i_minus),sigma(j)) + obj.DM(sigma(i),sigma(j_plus)) ...
@@ -82,16 +82,16 @@ classdef (Abstract) Heuristic < handle
                     while i == j || i_plus == j
                         j = randi(obj.n_total);
                     end
-                    % Move j right to i in sigma_bis
+                    % Move j right to i in sigma_new
                     if i < j
-                        sigma_bis = [sigma(1:i) sigma(j) sigma(i+1:j-1) sigma(j+1:obj.n_total)];
+                        sigma_new = [sigma(1:i) sigma(j) sigma(i+1:j-1) sigma(j+1:obj.n_total)];
                     else
-                        sigma_bis = [sigma(1:j-1) sigma(j+1:i) sigma(j) sigma(i+1:obj.n_total)];
+                        sigma_new = [sigma(1:j-1) sigma(j+1:i) sigma(j) sigma(i+1:obj.n_total)];
                     end
                     % Find j+ and j-
                     j_plus = mod(j, obj.n_total) + 1;
                     j_minus = mod(j+(obj.n_total-2), obj.n_total) + 1;
-                    % Compute the difference of length between sigma bis
+                    % Compute the difference of length between sigma new
                     % and sigma
                     if i_plus == j_minus
                         delta = obj.DM(sigma(i),sigma(j)) + obj.DM(sigma(i_plus),sigma(j_plus)) ...
@@ -110,36 +110,36 @@ classdef (Abstract) Heuristic < handle
                     while i == j
                         j = randi(obj.n_total);
                     end
-                    % Inverse subcycle i+1 to j in sigma_bis
+                    % Inverse subcycle i+1 to j in sigma_new
                     if i < j
-                        sigma_bis = sigma;
-                        sigma_bis(i_plus:j) = fliplr(sigma_bis(i_plus:j));
+                        sigma_new = sigma;
+                        sigma_new(i_plus:j) = fliplr(sigma_new(i_plus:j));
                     else
                         % If j > i, firstshift sigma to have sigma(i) at
                         % position at sigma(1)
-                        sigma_bis = circshift(sigma, [0,obj.n_total-i+1]);
-                        sigma_bis(2:2+i-j) = fliplr(sigma_bis(2:2+i-j));
+                        sigma_new = circshift(sigma, [0,obj.n_total-i+1]);
+                        sigma_new(2:2+i-j) = fliplr(sigma_new(2:2+i-j));
                     end
                     % Find j+
                     j_plus = mod(j, obj.n_total) + 1;
-                    % Compute the difference of length between sigma bis
+                    % Compute the difference of length between sigma new
                     % and sigma
                     delta = obj.DM(sigma(i),sigma(j)) + obj.DM(sigma(i_plus),sigma(j_plus)) ...
                               - obj.DM(sigma(i),sigma(i_plus)) - obj.DM(sigma(j),sigma(j_plus));
                     % If i+ = j or j+ = i, restart
                     if i_plus == j || j_plus == i
-                        [sigma_bis, delta] = obj.smallMove(sigma, 'inversion');
+                        [sigma_new, delta] = obj.smallMove(sigma, 'inversion');
                     end 
                 otherwise
                     % Select a random number between 1 and 3
                     move_nb = randi(3);
                     switch move_nb
                         case 1
-                            [sigma_bis, delta] = obj.smallMove(sigma, 'swap');
+                            [sigma_new, delta] = obj.smallMove(sigma, 'swap');
                         case 2
-                            [sigma_bis, delta] = obj.smallMove(sigma, 'translation');
+                            [sigma_new, delta] = obj.smallMove(sigma, 'translation');
                         otherwise
-                            [sigma_bis, delta] = obj.smallMove(sigma, 'inversion');
+                            [sigma_new, delta] = obj.smallMove(sigma, 'inversion');
                     end
             end
         end
