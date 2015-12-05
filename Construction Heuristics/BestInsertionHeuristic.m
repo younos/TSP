@@ -11,16 +11,14 @@ classdef BestInsertionHeuristic < Heuristic
         end
         % Best Insertion heuristic applied on a Distance Matrix
         function AM = findShortestPath( obj )
-            % Extract the number of nodes
-            n_total = length(obj.DM);
             % Initialize sigma, its length and not selected nodes list
-            sigma = zeros(1, n_total);
+            sigma = zeros(1, obj.n_total);
             n_sigma = 0;
-            not_selected = 1:n_total;
+            not_selected = 1:obj.n_total;
             % Select randomly the first three nodes and remove them from
             % not_selected
             for i=1:3
-                random_index = randi(n_total - n_sigma);
+                random_index = randi(obj.n_total - n_sigma);
                 sigma(i) = not_selected(random_index);
                 not_selected(random_index) = [];
                 n_sigma = n_sigma + 1;
@@ -29,7 +27,7 @@ classdef BestInsertionHeuristic < Heuristic
             while ~isempty(not_selected)
                 % We select randomly one not already selected node and remove it
                 % from not selected
-                random_index = randi(n_total - n_sigma);
+                random_index = randi(obj.n_total - n_sigma);
                 node = not_selected(random_index);
                 not_selected(random_index) = [];
                 % Initalize the vector that will have the delta length of the

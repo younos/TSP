@@ -11,24 +11,22 @@ classdef SavingHeuristic < Heuristic
         end
         % Saving heuristic applied on a Distance Matrix
         function AM = findShortestPath( obj )
-            % Extract the total number of nodes
-            n_total = length(obj.DM);
             % Select randomly the warehouse
-            w = randi(n_total);
+            w = randi(obj.n_total);
             % Initialize SM (Savings Matrix: diw + dwj − dij)
-            SM = repmat(obj.DM(1:n_total, w), 1, n_total) ...
-              + repmat(obj.DM(w, 1:n_total), n_total, 1) ...
+            SM = repmat(obj.DM(1:obj.n_total, w), 1, obj.n_total) ...
+              + repmat(obj.DM(w, 1:obj.n_total), obj.n_total, 1) ...
               - obj.DM;
             % Initialize AM (Adjacency Matrix) with connections to node w
-            AM = zeros(n_total);
-            AM([1:w-1 w+1:n_total],w) = 2;
-            AM(w,[1:w-1 w+1:n_total]) = 2;
+            AM = zeros(obj.n_total);
+            AM([1:w-1 w+1:obj.n_total],w) = 2;
+            AM(w,[1:w-1 w+1:obj.n_total]) = 2;
             % Replace all diagonal elements, on line w or on column w in S with -1
-            SM(1:n_total+1:end) = -1;
+            SM(1:obj.n_total+1:end) = -1;
             SM(w,:) = -1;
             SM(:,w) = -1;
             % Initialize n_edges_to_w
-            n_edges_to_w = 2 * (n_total - 1);
+            n_edges_to_w = 2 * (obj.n_total - 1);
             % While w is connected to more than 2 nodes
             while 2 < n_edges_to_w
                 % While we don't find two nodes of different sub cycles
@@ -36,7 +34,7 @@ classdef SavingHeuristic < Heuristic
                     % Select the two nodes having the greatest saving when merged
                     [~, index] = max(SM(:));
                     % Transform index as row/column coordinates
-                    [i,j] = ind2sub([n_total,n_total], index);
+                    [i,j] = ind2sub([obj.n_total,obj.n_total], index);
                     % Check if nodes choosen are not in the same cycle
                     if SavingHeuristic.RespectRules(AM, i, j, w)
                         % If no we can go out of the loop

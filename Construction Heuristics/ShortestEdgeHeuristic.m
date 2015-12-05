@@ -11,23 +11,21 @@ classdef ShortestEdgeHeuristic < Heuristic
         end
         % Shortest Edge heuristic applied on a Distance Matrix
         function AM = findShortestPath( obj )
-            % Extract the number of nodes, i.e. edges needed for a cycle
-            n_total = length(obj.DM);
             % Initialize DM prime, AM (Adjacency Matrix) and n_edges
             DM_prime = obj.DM;
-            AM = zeros(n_total);
+            AM = zeros(obj.n_total);
             n_edges = 0;
             % Replace all diagonal elements in DM prime with Inf
-            DM_prime(1:n_total+1:end) = Inf;
+            DM_prime(1:obj.n_total+1:end) = Inf;
             % While we don't have the total number of nodes
-            while n_edges < n_total
+            while n_edges < obj.n_total
                 % While we don't find an edge respecting the rules, we continue
                 % select a new edge
                 while 1
                     % Select shortest edge in the Distance Matrix (prime)
                     [~, index] = min(DM_prime(:));
                     % Transform index as row/column coordinates
-                    [i,j] = ind2sub([n_total,n_total], index);
+                    [i,j] = ind2sub([obj.n_total,obj.n_total], index);
                     % Check if new edge respects the rules
                     if ShortestEdgeHeuristic.RespectRules(AM, i, j)
                         % If yes we can go out of the loop
