@@ -1,16 +1,16 @@
 classdef LocalSearchHeuristic < Heuristic
     % Greedy Local Search Heuristic subclass inheriting from class 'Heuristic'
-
+    
     properties
         n_moves
     end
     
     methods
         % Constructor
-    	function obj = LocalSearchHeuristic( DM )
+        function obj = LocalSearchHeuristic( DM )
             obj = obj@Heuristic(DM);
             % Initialize n_moves
-            obj.n_moves = 10 * obj.n_total;
+            obj.n_moves = 10 * obj.n_total^2;
         end
         % Local Search heuristic applied on a Distance Matrix
         function AM = findShortestPath( obj )
@@ -22,13 +22,12 @@ classdef LocalSearchHeuristic < Heuristic
                 % If the difference is negative or null, replace sigma with
                 % sigma_new
                 if delta <= 0
-                   sigma = sigma_new;
+                    sigma = sigma_new;
                 end
             end
             % Generate an Adjacency Matrix with sigma
             AM = SigmaToAM(sigma);
         end
     end
-    
 end
 
