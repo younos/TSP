@@ -1,6 +1,6 @@
 classdef (Abstract) Heuristic < handle
-   % Mother class Heuristic from which the subclasses will inherit the
-   % 'runTests' method
+    % Mother class Heuristic from which the subclasses will inherit the
+    % 'runTests' method
     
     properties
         % Structure where the Ajacency Matrices and the length are stored
@@ -20,7 +20,7 @@ classdef (Abstract) Heuristic < handle
     
     methods
         % Constructor
-    	function obj = Heuristic( DM )
+        function obj = Heuristic( DM )
             obj.DM = DM;
             obj.n_total = length(DM);
         end
@@ -39,7 +39,7 @@ classdef (Abstract) Heuristic < handle
             obj.Solutions(1).length
         end
         % Set the move_type to 'type'
-    	function obj = setMoveType( obj, type )
+        function obj = setMoveType( obj, type )
             obj.move_type = type;
         end
         % Find the next neighbour (with delta length) using a small move of type 'type'
@@ -66,15 +66,15 @@ classdef (Abstract) Heuristic < handle
                     % and sigma
                     if i_plus == j
                         delta = obj.DM(sigma(i_minus),sigma(j)) + obj.DM(sigma(i),sigma(j_plus)) ...
-                              - obj.DM(sigma(i_minus),sigma(i)) - obj.DM(sigma(j),sigma(j_plus));
+                            - obj.DM(sigma(i_minus),sigma(i)) - obj.DM(sigma(j),sigma(j_plus));
                     elseif j_plus == i
                         delta = obj.DM(sigma(j_minus),sigma(i)) + obj.DM(sigma(j),sigma(i_plus)) ...
-                              - obj.DM(sigma(j_minus),sigma(j)) - obj.DM(sigma(i),sigma(i_plus));
+                            - obj.DM(sigma(j_minus),sigma(j)) - obj.DM(sigma(i),sigma(i_plus));
                     else
                         delta = obj.DM(sigma(i_minus),sigma(j)) + obj.DM(sigma(j),sigma(i_plus)) ...
-                              + obj.DM(sigma(j_minus),sigma(i)) + obj.DM(sigma(i),sigma(j_plus)) ...
-                              - obj.DM(sigma(i_minus),sigma(i)) - obj.DM(sigma(i),sigma(i_plus)) ...
-                              - obj.DM(sigma(j_minus),sigma(j)) - obj.DM(sigma(j),sigma(j_plus));
+                            + obj.DM(sigma(j_minus),sigma(i)) + obj.DM(sigma(i),sigma(j_plus)) ...
+                            - obj.DM(sigma(i_minus),sigma(i)) - obj.DM(sigma(i),sigma(i_plus)) ...
+                            - obj.DM(sigma(j_minus),sigma(j)) - obj.DM(sigma(j),sigma(j_plus));
                     end
                 case 'translation'
                     % Choose node j to translate with i, s.t. i != j and i_plus != j
@@ -95,14 +95,14 @@ classdef (Abstract) Heuristic < handle
                     % and sigma
                     if i_plus == j_minus
                         delta = obj.DM(sigma(i),sigma(j)) + obj.DM(sigma(i_plus),sigma(j_plus)) ...
-                              - obj.DM(sigma(i),sigma(i_plus)) - obj.DM(sigma(j),sigma(j_plus));
+                            - obj.DM(sigma(i),sigma(i_plus)) - obj.DM(sigma(j),sigma(j_plus));
                     elseif j_plus == i
                         delta = obj.DM(sigma(j_minus),sigma(i)) + obj.DM(sigma(j),sigma(i_plus)) ...
-                              - obj.DM(sigma(j_minus),sigma(j)) - obj.DM(sigma(i),sigma(i_plus));
+                            - obj.DM(sigma(j_minus),sigma(j)) - obj.DM(sigma(i),sigma(i_plus));
                     else
                         delta = obj.DM(sigma(i),sigma(j)) + obj.DM(sigma(j),sigma(i_plus)) ...
-                              + obj.DM(sigma(j_minus),sigma(j_plus)) - obj.DM(sigma(i),sigma(i_plus)) ...
-                              - obj.DM(sigma(j_minus),sigma(j)) - obj.DM(sigma(j),sigma(j_plus));
+                            + obj.DM(sigma(j_minus),sigma(j_plus)) - obj.DM(sigma(i),sigma(i_plus)) ...
+                            - obj.DM(sigma(j_minus),sigma(j)) - obj.DM(sigma(j),sigma(j_plus));
                     end
                 case 'inversion'
                     % Choose node j to swap with i, s.t. i != j
@@ -110,26 +110,30 @@ classdef (Abstract) Heuristic < handle
                     while i == j
                         j = randi(obj.n_total);
                     end
-                    % Inverse subcycle i+1 to j in sigma_new
-                    if i < j
-                        sigma_new = sigma;
-                        sigma_new(i_plus:j) = fliplr(sigma_new(i_plus:j));
-                    else
-                        % If j > i, firstshift sigma to have sigma(i) at
-                        % position at sigma(1)
-                        sigma_new = circshift(sigma, [0,obj.n_total-i+1]);
-                        sigma_new(2:2+i-j) = fliplr(sigma_new(2:2+i-j));
-                    end
                     % Find j+
                     j_plus = mod(j, obj.n_total) + 1;
-                    % Compute the difference of length between sigma new
-                    % and sigma
-                    delta = obj.DM(sigma(i),sigma(j)) + obj.DM(sigma(i_plus),sigma(j_plus)) ...
-                              - obj.DM(sigma(i),sigma(i_plus)) - obj.DM(sigma(j),sigma(j_plus));
+                    % If i > j, first shift sigma to have sigma(i) at position 1
+                    if i > j
+                        shift = obj.n_total-i+1;
+                        sigma = circshift(sigma, [0,shift]);
+                        % Recompute i, i+, j and j+
+                        i = 1;
+                        i_plus = 2;
+                        j = j + shift;
+                        j_plus = mod(j, obj.n_total) + 1;
+                    end
                     % If i+ = j or j+ = i, restart
                     if i_plus == j || j_plus == i
                         [sigma_new, delta] = obj.smallMove(sigma, 'inversion');
-                    end 
+                        return;
+                    end
+                    % Inverse subcycle i+1 to j in sigma_new
+                    sigma_new = sigma;
+                    sigma_new(i_plus:j) = fliplr(sigma_new(i_plus:j));
+                    % Compute the difference of length between sigma new
+                    % and sigma
+                    delta = obj.DM(sigma(i),sigma(j)) + obj.DM(sigma(i_plus),sigma(j_plus)) ...
+                        - obj.DM(sigma(i),sigma(i_plus)) - obj.DM(sigma(j),sigma(j_plus));
                 otherwise
                     % Select a random number between 1 and 3
                     move_nb = randi(3);
@@ -146,7 +150,7 @@ classdef (Abstract) Heuristic < handle
     end
     methods (Abstract)
         % Find the shortest path (returns an Adjacent Matrix)
-    	findShortestPath( obj )
+        findShortestPath( obj )
     end
 end
 
