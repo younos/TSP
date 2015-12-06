@@ -1,12 +1,12 @@
 classdef SavingHeuristic < Heuristic
     % Saving Heuristic subclass inheriting from class 'Heuristic'
-
+    
     properties
     end
     
     methods
         % Constructor
-    	function obj = SavingHeuristic( DM )
+        function obj = SavingHeuristic( DM )
             obj = obj@Heuristic(DM);
         end
         % Saving heuristic applied on a Distance Matrix
@@ -15,8 +15,8 @@ classdef SavingHeuristic < Heuristic
             w = randi(obj.n_total);
             % Initialize SM (Savings Matrix: diw + dwj − dij)
             SM = repmat(obj.DM(1:obj.n_total, w), 1, obj.n_total) ...
-              + repmat(obj.DM(w, 1:obj.n_total), obj.n_total, 1) ...
-              - obj.DM;
+                + repmat(obj.DM(w, 1:obj.n_total), obj.n_total, 1) ...
+                - obj.DM;
             % Initialize AM (Adjacency Matrix) with connections to node w
             AM = zeros(obj.n_total);
             AM([1:w-1 w+1:obj.n_total],w) = 2;
@@ -92,8 +92,8 @@ classdef SavingHeuristic < Heuristic
                 if isempty(tmp) || tmp == w
                     respects = 1;
                     return;
-                % Else if the next current_node is j, that means i and j
-                % are in the same cycle
+                    % Else if the next current_node is j, that means i and j
+                    % are in the same cycle
                 elseif tmp == j
                     respects = 0;
                     return;

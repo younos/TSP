@@ -6,7 +6,7 @@ classdef ShortestEdgeHeuristic < Heuristic
     
     methods
         % Constructor
-    	function obj = ShortestEdgeHeuristic( DM )
+        function obj = ShortestEdgeHeuristic( DM )
             obj = obj@Heuristic(DM);
         end
         % Shortest Edge heuristic applied on a Distance Matrix
@@ -88,7 +88,7 @@ classdef ShortestEdgeHeuristic < Heuristic
                 if isempty(tmp) || n == 0
                     respects = 1;
                     return;
-                % Else if the next current_node is j, that means we did a cycle
+                    % Else if the next current_node is j, that means we did a cycle
                 elseif tmp == j
                     respects = 0;
                     return;

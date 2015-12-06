@@ -51,34 +51,34 @@ method.runTests;
 
 % Run the tests for the Simulated Annealing method
 
-%method = SimulatedAnnealingHeuristic(DM);
+method = SimulatedAnnealingHeuristic(DM);
 
 % Using Metropolis criterion
-%method.setCriterion('metropolis');
+method.setCriterion('metropolis');
 % Firstly, using swap moves
-%method.setMoveType('swap');
-%method.runTests;
+method.setMoveType('swap');
+method.runTests;
 % Secondly, using translation moves
-%method.setMoveType('translation');
-%method.runTests;
+method.setMoveType('translation');
+method.runTests;
 % Thirdly, using inversion moves
-%method.setMoveType('inversion');
-%method.runTests;
+method.setMoveType('inversion');
+method.runTests;
 % And finally, using mixed moves
-%method.setMoveType('mixed');
-%method.runTests;
+method.setMoveType('mixed');
+method.runTests;
 
 % Using Heat Bath condition
-%method.setCriterion('heatbath');
+method.setCriterion('heatbath');
 % Firstly, using swap moves
-%method.setMoveType('swap');
-%method.runTests;
+method.setMoveType('swap');
+method.runTests;
 % Secondly, using translation moves
-%method.setMoveType('translation');
-%method.runTests;
+method.setMoveType('translation');
+method.runTests;
 % Thirdly, using inversion moves
-%method.setMoveType('inversion');
-%method.runTests;
+method.setMoveType('inversion');
+method.runTests;
 % And finally, using mixed moves
-%method.setMoveType('mixed');
-%method.runTests;
+method.setMoveType('mixed');
+method.runTests;

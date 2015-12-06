@@ -6,7 +6,7 @@ classdef BestInsertionHeuristic < Heuristic
     
     methods
         % Constructor
-    	function obj = BestInsertionHeuristic( DM )
+        function obj = BestInsertionHeuristic( DM )
             obj = obj@Heuristic(DM);
         end
         % Best Insertion heuristic applied on a Distance Matrix
@@ -37,8 +37,8 @@ classdef BestInsertionHeuristic < Heuristic
                 % node i
                 for i=1:n_sigma
                     delta_length(i) = obj.DM(sigma(i), node) ...
-                                    + obj.DM(node, sigma(mod(i,n_sigma)+1)) ...
-                                    - obj.DM(sigma(i), mod(i,n_sigma)+1);
+                        + obj.DM(node, sigma(mod(i,n_sigma)+1)) ...
+                        - obj.DM(sigma(i), mod(i,n_sigma)+1);
                 end
                 % Check at which postion we have the minimum
                 [~, min_index] = min(delta_length);
