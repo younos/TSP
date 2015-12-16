@@ -6,53 +6,53 @@ classdef ShortestEdgeHeuristic < Heuristic
     
     methods
         % Constructor
-        function obj = ShortestEdgeHeuristic( DM )
-            obj = obj@Heuristic(DM);
+        function obj = ShortestEdgeHeuristic( nodes )
+            obj = obj@Heuristic(nodes);
         end
         % Shortest Edge heuristic applied on a Distance Matrix
-        function AM = findShortestPath( obj )
+        function adjacency_matrix = findShortestPath( obj )
             % Initialize DM prime, AM (Adjacency Matrix) and n_edges
-            DM_prime = obj.DM;
-            AM = zeros(obj.n_total);
+            distance_matrix_prime = obj.nodes.distance_matrix;
+            adjacency_matrix = zeros(obj.nodes.n_total);
             n_edges = 0;
             % Replace all diagonal elements in DM prime with Inf
-            DM_prime(1:obj.n_total+1:end) = Inf;
+            distance_matrix_prime(1:obj.nodes.n_total+1:end) = Inf;
             % While we don't have the total number of nodes
-            while n_edges < obj.n_total
+            while n_edges < obj.nodes.n_total
                 % While we don't find an edge respecting the rules, we continue
                 % select a new edge
                 while 1
                     % Select shortest edge in the Distance Matrix (prime)
-                    [~, index] = min(DM_prime(:));
+                    [~, index] = min(distance_matrix_prime(:));
                     % Transform index as row/column coordinates
-                    [i,j] = ind2sub([obj.n_total,obj.n_total], index);
+                    [i,j] = ind2sub([obj.nodes.n_total,obj.nodes.n_total], index);
                     % Check if new edge respects the rules
-                    if ShortestEdgeHeuristic.RespectRules(AM, i, j)
+                    if ShortestEdgeHeuristic.RespectRules(adjacency_matrix, i, j)
                         % If yes we can go out of the loop
                         break;
                     else
-                        % Otherwise, we update the edge's length to Inf in DM_prime.
-                        % This edge cannot be used anymore.
-                        DM_prime(i,j) = Inf;
-                        DM_prime(j,i) = Inf;
+                        % Otherwise, we update the edge's length to Inf in
+                        % distance_matrix_prime. This edge cannot be used anymore.
+                        distance_matrix_prime(i,j) = Inf;
+                        distance_matrix_prime(j,i) = Inf;
                     end
                 end
                 % We add edge i and j in AM
-                AM(i,j) = 1;
-                AM(j,i) = 1;
-                % Remove edge(i,j) from DM_prime
-                DM_prime(i,j) = Inf;
-                DM_prime(j,i) = Inf;
+                adjacency_matrix(i,j) = 1;
+                adjacency_matrix(j,i) = 1;
+                % Remove edge(i,j) from distance_matrix_prime
+                distance_matrix_prime(i,j) = Inf;
+                distance_matrix_prime(j,i) = Inf;
                 % If i/j have already 2 neighbours, set all possible edges
                 % related to i/j as impossible (to Inf). Otherwise just
                 % edge (i,j) as Inf
-                if sum(AM(i,:)) == 2
-                    DM_prime(i,:) = Inf;
-                    DM_prime(:,i) = Inf;
+                if sum(adjacency_matrix(i,:)) == 2
+                    distance_matrix_prime(i,:) = Inf;
+                    distance_matrix_prime(:,i) = Inf;
                 end
-                if sum(AM(j,:)) == 2
-                    DM_prime(j,:) = Inf;
-                    DM_prime(:,j) = Inf;
+                if sum(adjacency_matrix(j,:)) == 2
+                    distance_matrix_prime(j,:) = Inf;
+                    distance_matrix_prime(:,j) = Inf;
                 end
                 % Increment n_edges
                 n_edges = n_edges + 1;
@@ -63,22 +63,22 @@ classdef ShortestEdgeHeuristic < Heuristic
         % Check if when inserting edge between node i and j, we respect the
         % following rule/constraint:
         % 1. No cycle with less than n nodes
-        function respects = RespectRules( AM, i, j )
+        function respects = RespectRules( adjacency_matrix, i, j )
             % Insert edge 'ij' in AM
-            AM(i,j) = 1;
-            AM(j,i) = 1;
+            adjacency_matrix(i,j) = 1;
+            adjacency_matrix(j,i) = 1;
             % Starts from i and go to 2nd neighbour of i (i.e. not j)
             % If once we reach j, that means we introduced a cycle
             current_node = i;
             last_node = j;
             % Initialize remaining number of nodes to visit before complete
             % cycle (minus 1, because i is already visited)
-            n = length(AM) - 1;
+            n = length(adjacency_matrix) - 1;
             while 1
                 % Decrease n
                 n = n - 1;
                 % Find all the neighbours of current_node
-                neighbours = find(AM(current_node,:));
+                neighbours = find(adjacency_matrix(current_node,:));
                 % Choose as next current_node the 2nd neighbour (i.e. not
                 % last_node)
                 tmp = neighbours(neighbours~=last_node);

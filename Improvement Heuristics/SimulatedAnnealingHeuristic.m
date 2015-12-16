@@ -12,8 +12,8 @@ classdef SimulatedAnnealingHeuristic < Heuristic
     
     methods
         % Constructor
-        function obj = SimulatedAnnealingHeuristic( DM )
-            obj = obj@Heuristic(DM);
+        function obj = SimulatedAnnealingHeuristic(nodes)
+            obj = obj@Heuristic(nodes);
             % Generate the initial temperature only once
             obj.generateInitTemp();
         end
@@ -25,16 +25,16 @@ classdef SimulatedAnnealingHeuristic < Heuristic
         function obj = generateInitTemp( obj )
             % Initialize max_diff to zero and a random sigma permutation
             max_diff = 0;
-            sigma = randperm(obj.n_total);
+            sigma = randperm(obj.nodes.n_total);
             % Compute length of sigma
-            l_sigma = SigmaLength(sigma, obj.DM);
+            l_sigma = SigmaLength(sigma, obj.nodes.distance_matrix);
             % Generate successive random sigmas and compute the length
             % difference. Keep the max one.
             for i=1:obj.n_moves_per_level
                 % Generate a new sigma permutation
-                sigma_new = randperm(obj.n_total);
+                sigma_new = randperm(obj.nodes.n_total);
                 % Compute the length of sigma_new
-                l_sigma_new = SigmaLength(sigma_new, obj.DM);
+                l_sigma_new = SigmaLength(sigma_new, obj.nodes.distance_matrix);
                 % Compute the difference of the lengths
                 diff = abs(l_sigma_new - l_sigma);
                 % If better than the actual one keeo it
@@ -49,9 +49,9 @@ classdef SimulatedAnnealingHeuristic < Heuristic
             obj.init_temp = 10 * max_diff;
         end
         % Simulated Annealing heuristic applied on a Distance Matrix
-        function AM = findShortestPath( obj )
+        function adjacency_matrix = findShortestPath( obj )
             % Generate a random permutation sigma
-            sigma = randperm(obj.n_total);
+            sigma = randperm(obj.nodes.n_total);
             % Initialize new temperature to the initial one
             new_temp = obj.init_temp;
             % Initialze the number of successive runs during which sigma
@@ -97,7 +97,7 @@ classdef SimulatedAnnealingHeuristic < Heuristic
                 n_moves_actual_temp = n_moves_actual_temp + 1;
             end
             % Generate an Adjacency Matrix with sigma
-            AM = SigmaToAM(sigma);
+            adjacency_matrix = SigmaToAM(sigma);
         end
     end
 end
