@@ -14,7 +14,7 @@ classdef Nodes
             obj.node_list = nl;
             obj.n_total = length(nl);
             % Compute the distance matrix
-            obj.distance_matrix = squareform(pdist(nl));
+            obj.distance_matrix = squareform(pdist(nl(:,2:3)));
         end
     end
 end

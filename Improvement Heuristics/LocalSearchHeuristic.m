@@ -12,7 +12,7 @@ classdef LocalSearchHeuristic < Heuristic
             obj.n_moves = 10 * nodes.n_total^2;
         end
         % Local Search heuristic applied on a Distance Matrix
-        function adjacency_matrix = findShortestPath( obj )
+        function sigma = findShortestPath( obj )
             % Generate a random permutation sigma
             sigma = randperm(obj.nodes.n_total);
             % During n_moves tours generate a neighbour using a small move
@@ -24,8 +24,6 @@ classdef LocalSearchHeuristic < Heuristic
                     sigma = sigma_new;
                 end
             end
-            % Generate an Adjacency Matrix with sigma
-            adjacency_matrix = SigmaToAM(sigma);
         end
     end
 end

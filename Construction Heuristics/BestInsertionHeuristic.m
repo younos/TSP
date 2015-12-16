@@ -10,7 +10,7 @@ classdef BestInsertionHeuristic < Heuristic
             obj = obj@Heuristic(nodes);
         end
         % Best Insertion heuristic applied on a Distance Matrix
-        function adjacency_matrix = findShortestPath( obj )
+        function sigma = findShortestPath( obj )
             % Initialize sigma, its length and not selected nodes list
             sigma = zeros(1, obj.nodes.n_total);
             n_sigma = 0;
@@ -48,7 +48,6 @@ classdef BestInsertionHeuristic < Heuristic
                 % Increment n_sigma
                 n_sigma = n_sigma + 1;
             end
-            adjacency_matrix = SigmaToAM(sigma);
         end
     end
 end

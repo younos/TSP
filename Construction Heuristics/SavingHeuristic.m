@@ -10,7 +10,7 @@ classdef SavingHeuristic < Heuristic
             obj = obj@Heuristic(nodes);
         end
         % Saving heuristic applied on a Distance Matrix
-        function adjacency_matrix = findShortestPath( obj )
+        function sigma = findShortestPath( obj )
             % Select randomly the warehouse
             w = randi(obj.nodes.n_total);
             % Initialize SM (Savings Matrix: diw + dwj − dij)
@@ -70,6 +70,7 @@ classdef SavingHeuristic < Heuristic
                 % Decrease n_edges_to_w
                 n_edges_to_w = n_edges_to_w - 2;
             end
+            sigma = obj.AMToSigma(adjacency_matrix);
         end
     end
     methods (Static)

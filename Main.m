@@ -10,7 +10,7 @@ addpath('Improvement Heuristics');
 % Import the data
 node_list = importdata('TSP_411.txt', ' ');
 % Set the node list to the Nodes class
-nodes = Nodes(node_list(:, 2:3));
+nodes = Nodes(node_list);
 
 
 % Run the tests for the Best Insertion method
@@ -18,6 +18,7 @@ nodes = Nodes(node_list(:, 2:3));
 method = BestInsertionHeuristic(nodes);
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 
 
 % Run the tests for the Shortest Edge method
@@ -25,6 +26,7 @@ method.statisticsTable
 method = ShortestEdgeHeuristic(nodes);
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 
 
 % Run the tests for the Saving Heuristics method
@@ -32,6 +34,7 @@ method.statisticsTable
 method = SavingHeuristic(nodes);
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 
 
 % Run the tests for the Greedy Local Search method
@@ -42,18 +45,22 @@ method = LocalSearchHeuristic(nodes);
 method.setMoveType('swap');
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 % Secondly, using translation moves
 method.setMoveType('translation');
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 % Thirdly, using inversion moves
 method.setMoveType('inversion');
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 % And finally, using mixed moves
 method.setMoveType('mixed');
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 
 
 % Run the tests for the Simulated Annealing method
@@ -66,18 +73,22 @@ method.setCriterion('metropolis');
 method.setMoveType('swap');
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 % Secondly, using translation moves
 method.setMoveType('translation');
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 % Thirdly, using inversion moves
 method.setMoveType('inversion');
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 % And finally, using mixed moves
 method.setMoveType('mixed');
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 
 % Using Heat Bath condition
 method.setCriterion('heatbath');
@@ -85,15 +96,19 @@ method.setCriterion('heatbath');
 method.setMoveType('swap');
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 % Secondly, using translation moves
 method.setMoveType('translation');
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 % Thirdly, using inversion moves
 method.setMoveType('inversion');
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot
 % And finally, using mixed moves
 method.setMoveType('mixed');
 method.runTests;
 method.statisticsTable
+method.bestSolutionPlot

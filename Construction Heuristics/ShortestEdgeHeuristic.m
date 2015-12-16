@@ -10,7 +10,7 @@ classdef ShortestEdgeHeuristic < Heuristic
             obj = obj@Heuristic(nodes);
         end
         % Shortest Edge heuristic applied on a Distance Matrix
-        function adjacency_matrix = findShortestPath( obj )
+        function sigma = findShortestPath( obj )
             % Initialize DM prime, AM (Adjacency Matrix) and n_edges
             distance_matrix_prime = obj.nodes.distance_matrix;
             adjacency_matrix = zeros(obj.nodes.n_total);
@@ -57,6 +57,7 @@ classdef ShortestEdgeHeuristic < Heuristic
                 % Increment n_edges
                 n_edges = n_edges + 1;
             end
+            sigma = obj.AMToSigma(adjacency_matrix);
         end
     end
     methods (Static)

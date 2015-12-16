@@ -27,14 +27,14 @@ classdef SimulatedAnnealingHeuristic < Heuristic
             max_diff = 0;
             sigma = randperm(obj.nodes.n_total);
             % Compute length of sigma
-            l_sigma = SigmaLength(sigma, obj.nodes.distance_matrix);
+            l_sigma = obj.sigmaLength(sigma);
             % Generate successive random sigmas and compute the length
             % difference. Keep the max one.
             for i=1:obj.n_moves_per_level
                 % Generate a new sigma permutation
                 sigma_new = randperm(obj.nodes.n_total);
                 % Compute the length of sigma_new
-                l_sigma_new = SigmaLength(sigma_new, obj.nodes.distance_matrix);
+                l_sigma_new = obj.sigmaLength(sigma_new);
                 % Compute the difference of the lengths
                 diff = abs(l_sigma_new - l_sigma);
                 % If better than the actual one keeo it
@@ -49,7 +49,7 @@ classdef SimulatedAnnealingHeuristic < Heuristic
             obj.init_temp = 10 * max_diff;
         end
         % Simulated Annealing heuristic applied on a Distance Matrix
-        function adjacency_matrix = findShortestPath( obj )
+        function sigma = findShortestPath( obj )
             % Generate a random permutation sigma
             sigma = randperm(obj.nodes.n_total);
             % Initialize new temperature to the initial one
@@ -96,8 +96,6 @@ classdef SimulatedAnnealingHeuristic < Heuristic
                 n_moves_no_change = n_moves_no_change + 1;
                 n_moves_actual_temp = n_moves_actual_temp + 1;
             end
-            % Generate an Adjacency Matrix with sigma
-            adjacency_matrix = SigmaToAM(sigma);
         end
     end
 end
