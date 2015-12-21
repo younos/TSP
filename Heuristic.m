@@ -44,7 +44,7 @@ classdef (Abstract) Heuristic < handle
                 % Get the length of the path based on sigma and the DM.
                 obj.solutions(i).length = obj.sigmaLength(obj.solutions(i).sigma);
             end
-            disp([class(obj), ': ', num2str(obj.solutions(1).length)])
+            %disp([class(obj), ': ', num2str(obj.solutions(1).length)])
         end
         % Get the statistics of the tests launched
         function stable = statisticsTable(obj)
@@ -63,14 +63,17 @@ classdef (Abstract) Heuristic < handle
             stable = table(average, minimum, maximum, confidence_interval);
         end
         % Get the plot of the best solution
-        function bsplot = bestSolutionPlot(obj)
+        function bestSolutionPlot(obj, plot_title)
             % Compute the index of the solution having the minimum length
             [~, i] = min([obj.solutions.length]);
             % Generate the sorted node list using sigma
             sorted_node_list = obj.nodes.node_list(obj.solutions(i).sigma, :);
             % Plot the graph using the coordinate of the node list and sigma
-            bsplot = plot(sorted_node_list(:, 2), sorted_node_list(:, 3), '-o');
+            plot(sorted_node_list(:, 2), sorted_node_list(:, 3), '-o');
             text(sorted_node_list(:, 2)+0.4, sorted_node_list(:, 3), num2str(sorted_node_list(:, 1)));
+            title(plot_title)
+            xlabel('x coordinate')
+            ylabel('y coordinate')
         end
         % Compute the length of the path using sigma and the distance matrix
         function l = sigmaLength(obj, sigma)

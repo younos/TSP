@@ -1,7 +1,7 @@
-% Probabilistic Algorithms Project
-% Autumn 2015
-% Younos Cherkaoui
+%% Probabilistic Algorithms, TSP Project
+% Younos Cherkaoui, Autumn 2015
 
+%% Importations, etc
 
 % Import functions adding subpaths
 addpath('Construction Heuristics');
@@ -13,102 +13,119 @@ node_list = importdata('TSP_411.txt', ' ');
 nodes = Nodes(node_list);
 
 
-% Run the tests for the Best Insertion method
+%% Best Insertion method
 
 method = BestInsertionHeuristic(nodes);
 method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
+BestInsertionTable = method.statisticsTable
+method.bestSolutionPlot('BestInsertionBestSolutionPlot')
 
 
-% Run the tests for the Shortest Edge method
+%% Shortest Edge method
 
 method = ShortestEdgeHeuristic(nodes);
 method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
+ShortestEdgeTable = method.statisticsTable
+method.bestSolutionPlot('ShortestEdgeBestSolutionPlot')
 
 
-% Run the tests for the Saving Heuristics method
+%% Saving Heuristics
 
 method = SavingHeuristic(nodes);
 method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
+SavingHeuristicsTable = method.statisticsTable
+method.bestSolutionPlot('SavingHeuristicsBestSolutionPlot')
 
 
-% Run the tests for the Greedy Local Search method
+%% Greedy Local Search method using swap moves
 
 method = LocalSearchHeuristic(nodes);
 
-% Firstly, using swap moves
 method.setMoveType('swap');
 method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
-% Secondly, using translation moves
+GreedyLocalSearchSwapMoveTable = method.statisticsTable
+method.bestSolutionPlot('GreedyLocalSearchSwapMoveBestSolutionPlot')
+
+%% Greedy Local Search method using translation moves
+
 method.setMoveType('translation');
 method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
-% Thirdly, using inversion moves
+GreedyLocalSearchTranslationMoveTable = method.statisticsTable
+method.bestSolutionPlot('GreedyLocalSearchTranslationMoveBestSolutionPlot')
+
+%% Greedy Local Search method using inversion moves
+
 method.setMoveType('inversion');
 method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
-% And finally, using mixed moves
+GreedyLocalSearchInversionMoveTable = method.statisticsTable
+method.bestSolutionPlot('GreedyLocalSearchInversionMoveBestSolutionPlot')
+
+%% Greedy Local Search method using mixed moves
+
 method.setMoveType('mixed');
 method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
+GreedyLocalSearchMixedMoveTable = method.statisticsTable
+method.bestSolutionPlot('GreedyLocalSearchMxedMoveBestSolutionPlot')
 
 
-% Run the tests for the Simulated Annealing method
+%% Simulated Annealing method with Metropolis criterion and swap moves
 
 method = SimulatedAnnealingHeuristic(nodes);
 
-% Using Metropolis criterion
 method.setCriterion('metropolis');
-% Firstly, using swap moves
-method.setMoveType('swap');
-method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
-% Secondly, using translation moves
-method.setMoveType('translation');
-method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
-% Thirdly, using inversion moves
-method.setMoveType('inversion');
-method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
-% And finally, using mixed moves
-method.setMoveType('mixed');
-method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
 
-% Using Heat Bath condition
-method.setCriterion('heatbath');
-% Firstly, using swap moves
 method.setMoveType('swap');
 method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
-% Secondly, using translation moves
+SimulatedAnnealingMetropolisSwapMoveTable = method.statisticsTable
+method.bestSolutionPlot('SimulatedAnnealingMetropolisSwapMoveBestSolutionPlot')
+
+%% Simulated Annealing method with Metropolis criterion and translation moves
+
 method.setMoveType('translation');
 method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
-% Thirdly, using inversion moves
+SimulatedAnnealingMetropolisTranslationMoveTable = method.statisticsTable
+method.bestSolutionPlot('SimulatedAnnealingMetropolisTranslationMoveBestSolutionPlot')
+
+%% Simulated Annealing method with Metropolis criterion and inversion moves
+
 method.setMoveType('inversion');
 method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
-% And finally, using mixed moves
+SimulatedAnnealingMetropolisInversionMoveTable = method.statisticsTable
+method.bestSolutionPlot('SimulatedAnnealingMetropolisInversionMoveBestSolutionPlot')
+
+%% Simulated Annealing method with Metropolis criterion and mixed moves
+
 method.setMoveType('mixed');
 method.runTests;
-method.statisticsTable
-method.bestSolutionPlot
+SimulatedAnnealingMetropolisMixedMoveTable = method.statisticsTable
+method.bestSolutionPlot('SimulatedAnnealingMetropolisMixedMoveBestSolutionPlot')
+
+%% Simulated Annealing method with Heat Bath criterion and swap moves
+
+method.setCriterion('heatbath');
+
+method.setMoveType('swap');
+method.runTests;
+SimulatedAnnealingHeatBathSwapMoveTable = method.statisticsTable
+method.bestSolutionPlot('SimulatedAnnealingHeatBathSwapMoveBestSolutionPlot')
+
+%% Simulated Annealing method with Heat Bath criterion and translation moves
+
+method.setMoveType('translation');
+method.runTests;
+SimulatedAnnealingHeatBathTranslationMoveTable = method.statisticsTable
+method.bestSolutionPlot('SimulatedAnnealingHeatBathTranslationMoveBestSolutionPlot')
+
+%% Simulated Annealing method with Heat Bath criterion and inversion moves
+
+method.setMoveType('inversion');
+method.runTests;
+SimulatedAnnealingHeatBathInversionMoveTable = method.statisticsTable
+method.bestSolutionPlot('SimulatedAnnealingHeatBathInversionMoveBestSolutionPlot')
+
+%% Simulated Annealing method with Heat Bath criterion and mixed moves
+
+method.setMoveType('mixed');
+method.runTests;
+SimulatedAnnealingHeatBathMixedMoveTable = method.statisticsTable
+method.bestSolutionPlot('SimulatedAnnealingHeatBathMoveBestSolutionPlot')
