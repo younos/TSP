@@ -15,7 +15,7 @@ classdef (Abstract) Heuristic < handle
     % Constant variables (common to all instances)
     properties(Constant)
         % Number of iterations
-        nb_it = 1
+        nb_it = 2
         % Confidence interval of 95 %
         alpha = 0.95
     end
@@ -69,11 +69,12 @@ classdef (Abstract) Heuristic < handle
             % Generate the sorted node list using sigma
             sorted_node_list = obj.nodes.node_list(obj.solutions(i).sigma, :);
             % Plot the graph using the coordinate of the node list and sigma
+            figure('Position', [100, 100, 1049, 895]);
             plot(sorted_node_list(:, 2), sorted_node_list(:, 3), '-o');
             text(sorted_node_list(:, 2)+0.4, sorted_node_list(:, 3), num2str(sorted_node_list(:, 1)));
-            title(plot_title)
-            xlabel('x coordinate')
-            ylabel('y coordinate')
+            title(strcat(plot_title, 'BestSolution'));
+            xlabel('x coordinate');
+            ylabel('y coordinate');
         end
         % Compute the length of the path using sigma and the distance matrix
         function l = sigmaLength(obj, sigma)
