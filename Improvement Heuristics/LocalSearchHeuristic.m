@@ -46,23 +46,23 @@ classdef LocalSearchHeuristic < Heuristic
                 obj.l_values(i, iteration) = l_sigma;
             end
         end
-        % Get the plot of the l_values (min, max, mean) vs curr_moves
-        function currMovesPlot(obj, plot_title)
-            % Compute the min value for each line of l_values
-            l_min = min(obj.l_values, [], 2);
+        % Get the plot of performance (l_values (min, max, mean) vs curr_moves)
+        function performancePlot(obj, plot_title)
             % Compute the max value for each line of l_values
             l_max = max(obj.l_values, [], 2);
             % Compute the mean for each line of l_values
             l_mean = mean(obj.l_values, 2);
+            % Compute the min value for each line of l_values
+            l_min = min(obj.l_values, [], 2);
             % Plot the graph with logarithmic scale
             figure('Position', [100, 100, 1049, 895]);
-            loglog(1:obj.n_moves, l_min, 'r', ...
-                 1:obj.n_moves, l_max, 'g', ...
-                 1:obj.n_moves, l_mean, 'b');
-            title(strcat(plot_title, 'CurrMoves'));
+            loglog(1:obj.n_moves, l_max, 'r', ...
+                 1:obj.n_moves, l_mean, 'g', ...
+                 1:obj.n_moves, l_min, 'b');
+            title(strcat(plot_title, 'Performance'));
             xlabel('number of moves');
             ylabel('L(\theta)');
-            legend('min', 'max', 'mean');
+            legend('max', 'mean', 'min');
         end
     end
 end

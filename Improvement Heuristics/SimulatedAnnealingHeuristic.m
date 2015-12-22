@@ -4,6 +4,7 @@ classdef SimulatedAnnealingHeuristic < Heuristic
     properties
         criterion
         init_temp
+        l_values
     end
     properties(Constant)
         % Number of moves in each temperature level
@@ -49,9 +50,20 @@ classdef SimulatedAnnealingHeuristic < Heuristic
             obj.init_temp = 10 * max_diff;
         end
         % Simulated Annealing heuristic applied on a Distance Matrix
-        function sigma = findShortestPath( obj )
+        function sigma = findShortestPath( obj, performance )
+            % By default performance value is false
+            if nargin == 1
+                performance = false;
+            end
             % Generate a random permutation sigma
             sigma = randperm(obj.nodes.n_total);
+            % If we measure the performance, we initialize the vector
+            % that will contains the values for one temperature
+            if performance
+                l_values_per_temp = zeros(1, obj.n_moves_per_level);
+                % And we compute the L value of sigma
+                l_sigma = obj.sigmaLength(sigma);
+            end
             % Initialize new temperature to the initial one
             new_temp = obj.init_temp;
             % Initialze the number of successive runs during which sigma
@@ -67,6 +79,12 @@ classdef SimulatedAnnealingHeuristic < Heuristic
                 % If we did 'n_moves_per_level' steps in the actual
                 % temperature, decrease the temperature
                 if obj.n_moves_per_level == n_moves_actual_temp
+                    % If we measure the performance, we record the max,
+                    % mean and min value for the actual temp
+                    if performance
+                        obj.l_values = [obj.l_values; ...
+                                        new_temp, max(l_values_per_temp), mean(l_values_per_temp), min(l_values_per_temp)];
+                    end
                     new_temp = 0.95 * new_temp;
                     n_moves_actual_temp = 0;
                 end
@@ -82,6 +100,11 @@ classdef SimulatedAnnealingHeuristic < Heuristic
                         % The solution changed, so n_moves_no_change must
                         % be 0 at the end of this tour
                         n_moves_no_change = -1;
+                        % If measure performance, we record the new l value
+                        % of sigma
+                        if performance
+                            l_sigma = l_sigma + delta;
+                        end
                     end
                     % For Heat Bath condition, only based on acceptance probability
                 else
@@ -90,12 +113,39 @@ classdef SimulatedAnnealingHeuristic < Heuristic
                         % The solution changed, so n_moves_no_change must
                         % be 0 at the end of this tour
                         n_moves_no_change = -1;
+                        % If measure performance, we record the new l value
+                        % of sigma
+                        if performance
+                            l_sigma = l_sigma + delta;
+                        end
                     end
                 end
                 % Increment n_moves_no_change and n_moves_actual_temp
                 n_moves_no_change = n_moves_no_change + 1;
                 n_moves_actual_temp = n_moves_actual_temp + 1;
+                % Add the current L value of sigma to the vector of values
+                % for the current temp (if measuring performance)
+                if performance
+                    l_values_per_temp(n_moves_actual_temp) = l_sigma;
+                end
             end
+        end
+        % Get the plot of performance (l_values (min, max, mean) vs temperature)
+        function performancePlot(obj, plot_title)
+            % Initialize l_values (1st column for temperature values, 2nd
+            % column for min, 3rd for max and 4th for mean)
+            obj.l_values = [];
+            % Launch algorithm computing the performance
+            obj.findShortestPath(true);
+            % Display the performance plot
+            figure('Position', [100, 100, 1049, 895]);
+            plot(obj.l_values(:,1), obj.l_values(:,2), 'r', ...
+                 obj.l_values(:,1), obj.l_values(:,3), 'g', ...
+                 obj.l_values(:,1), obj.l_values(:,4), 'b');
+            title(strcat(plot_title, 'Performance'));
+            xlabel('temperature');
+            ylabel('L(\theta)');
+            legend('max', 'mean', 'min');
         end
     end
 end
