@@ -20,12 +20,6 @@ classdef (Abstract) Heuristic < handle
         alpha = 0.95
     end
     
-    
-    % Methods to be implement by the subclasses
-    methods (Abstract)
-        % Find the shortest path (returns an Adjacent Matrix)
-        findShortestPath( obj )
-    end
     % Methods of the instances
     methods
         % Constructor
