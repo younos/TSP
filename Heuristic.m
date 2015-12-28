@@ -7,8 +7,6 @@ classdef (Abstract) Heuristic < handle
         % Structure where the sigma permutation and the length are stored
         % for each iterations
         solutions = struct('sigma', {}, 'length', {})
-        % Type of move selected
-        move_type
         % Instance of the Nodes class
         nodes
     end
@@ -104,10 +102,6 @@ classdef (Abstract) Heuristic < handle
                 previous_node = actual_node;
                 actual_node = sigma(i);
             end
-        end
-        % Set the move_type to 'type'
-        function obj = setMoveType( obj, type )
-            obj.move_type = type;
         end
         % Find the next neighbour (with delta length) using a small move of type 'type'
         function [sigma_new, delta] = smallMove(obj, sigma, type)

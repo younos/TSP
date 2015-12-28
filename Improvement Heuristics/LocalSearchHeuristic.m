@@ -2,14 +2,18 @@ classdef LocalSearchHeuristic < Heuristic
     % Greedy Local Search Heuristic subclass inheriting from class 'Heuristic'
     
     properties
+        move_type
         n_moves
         l_values
     end
     
     methods
         % Constructor
-        function obj = LocalSearchHeuristic( nodes )
+        function obj = LocalSearchHeuristic( nodes, move_type )
             obj = obj@Heuristic(nodes);
+            % Set the move_type and compute the total number of moves to be
+            % executed
+            obj.move_type = move_type;
             obj.n_moves = 10 * nodes.n_total^2;
         end
         % Rewrite the runTests method to initialize because of 'l_values'

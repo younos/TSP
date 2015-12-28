@@ -3,6 +3,7 @@ classdef SimulatedAnnealingHeuristic < Heuristic
     
     properties
         criterion
+        move_type
         init_temp
         l_values
     end
@@ -13,14 +14,13 @@ classdef SimulatedAnnealingHeuristic < Heuristic
     
     methods
         % Constructor
-        function obj = SimulatedAnnealingHeuristic(nodes)
+        function obj = SimulatedAnnealingHeuristic(nodes, criterion, move_type)
             obj = obj@Heuristic(nodes);
+            % Set the criterion and the move_type
+            obj.criterion = criterion;
+            obj.move_type = move_type;
             % Generate the initial temperature only once
             obj.generateInitTemp();
-        end
-        % Set the criterion to 'criterion'
-        function obj = setCriterion( obj, criterion )
-            obj.criterion = criterion;
         end
         % Generate the initial temperature 'init_temp'
         function obj = generateInitTemp( obj )
