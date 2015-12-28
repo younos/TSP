@@ -23,14 +23,12 @@ classdef LocalSearchHeuristic < Heuristic
             obj.l_values = zeros(obj.n_moves, obj.nb_it);
             % Run the method 'nb_it' times
             for i=1:obj.nb_it
-                % Get the solution returned by the method 'findShortestPath'
-                % and insert it in the 'solutions' structure. Each solution
-                % is a sigma permutation.
-                obj.solutions(i).sigma = obj.findShortestPath(i);
-                % Get the length of the path based on sigma and the DM.
-                obj.solutions(i).length = obj.sigmaLength(obj.solutions(i).sigma);
+                % Get the sigma solution returned by the method 'findShortestPath'
+                % and insert it in the sigma array
+                obj.sigma_array(i,:) = obj.findShortestPath(i);
+                % Get the length of the path based on sigma
+                obj.length_array(i) = obj.sigmaLength(obj.sigma_array(i,:));
             end
-            %disp([class(obj), ': ', num2str(obj.solutions(1).length)])
         end
         % Local Search heuristic applied on a Distance Matrix
         function sigma = findShortestPath( obj, iteration )

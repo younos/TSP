@@ -4,9 +4,10 @@ classdef (Abstract) Heuristic < handle
     
     % Normal variables
     properties
-        % Structure where the sigma permutation and the length are stored
-        % for each iterations
-        solutions = struct('sigma', {}, 'length', {})
+        % Array of the sigma permutations retrieved for each iteration
+        sigma_array
+        % Array of the lengths retrieved for each iteration
+        length_array
         % Instance of the Nodes class
         nodes
     end
@@ -23,43 +24,44 @@ classdef (Abstract) Heuristic < handle
         % Constructor
         function obj = Heuristic( nodes )
             obj.nodes = nodes;
+            % Initialize the sigma and length arrays
+            obj.sigma_array = zeros(obj.nb_it,obj.nodes.n_total);
+            obj.length_array = zeros(obj.nb_it,1);
         end
         % Apply the tests with the 'findShortestPath' method on the
         % Distance Matrix
         function runTests( obj )
             % Run the method 'nb_it' times
             for i=1:obj.nb_it
-                % Get the solution returned by the method 'findShortestPath'
-                % and insert it in the 'solutions' structure. Each solution
-                % is a sigma permutation.
-                obj.solutions(i).sigma = obj.findShortestPath();
-                % Get the length of the path based on sigma and the DM.
-                obj.solutions(i).length = obj.sigmaLength(obj.solutions(i).sigma);
+                % Get the sigma solution returned by the method 'findShortestPath'
+                % and insert it in the sigma array
+                obj.sigma_array(i,:) = obj.findShortestPath();
+                % Get the length of the path based on sigma
+                obj.length_array(i) = obj.sigmaLength(obj.sigma_array(i,:));
             end
-            %disp([class(obj), ': ', num2str(obj.solutions(1).length)])
         end
         % Get the statistics of the tests launched
         function stable = statisticsTable(obj)
             % Compute the mean, min and max of the solutions computed
             % and put them in a table
-            average = mean([obj.solutions.length]);
-            minimum = min([obj.solutions.length]);
-            maximum = max([obj.solutions.length]);
+            average = mean(obj.length_array);
+            minimum = min(obj.length_array);
+            maximum = max(obj.length_array);
             % To compute the confidence interval
             % First, compute the two t values given alpha and n
             t_values = tinv([(1-obj.alpha)/2 (1+obj.alpha)/2], obj.nb_it-1);
             % Then, the confidence interval
             confidence_interval = average ...
-                + t_values * std([obj.solutions.length])/sqrt(obj.nb_it-1);
+                + t_values * std(obj.length_array)/sqrt(obj.nb_it-1);
             % Add the statistics to the table
             stable = table(average, minimum, maximum, confidence_interval);
         end
         % Get the plot of the best solution
         function bestSolutionPlot(obj, plot_title)
             % Compute the index of the solution having the minimum length
-            [~, i] = min([obj.solutions.length]);
+            [~, i] = min(obj.length_array);
             % Generate the sorted node list using sigma
-            sorted_node_list = obj.nodes.node_list(obj.solutions(i).sigma, :);
+            sorted_node_list = obj.nodes.node_list(obj.sigma_array(i,:), :);
             % Plot the graph using the coordinate of the node list and sigma
             figure('Position', [100, 100, 1049, 895]);
             plot(sorted_node_list(:, 2), sorted_node_list(:, 3), '-o');
