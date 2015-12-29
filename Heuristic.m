@@ -14,7 +14,7 @@ classdef (Abstract) Heuristic < handle
     % Constant variables (common to all instances)
     properties(Constant)
         % Number of iterations
-        nb_it = 2
+        nb_it = 40
         % Confidence interval of 95 %
         alpha = 0.95
     end
@@ -73,6 +73,44 @@ classdef (Abstract) Heuristic < handle
             title(strcat(obj.getName(), 'BestSolution'));
             xlabel('x coordinate');
             ylabel('y coordinate');
+        end
+        % Make a two-sample test between the current obj Heuristic and
+        % the one given in parameters
+        function twoSampleTest(obj, method)
+            % Compute the number of values for each sequence
+            n1 = length(obj.length_array);
+            n2 = length(method.length_array);
+            % Compute the mean of both methods
+            average1 = mean(obj.length_array);
+            average2 = mean(method.length_array);
+            % Compute the estimate of the variance of both methods
+            variance1 = 1/(n1-1) * sum((obj.length_array-average1).^2);
+            variance2 = 1/(n2-1) * sum((method.length_array-average2).^2);
+            % Compute the estime T of student
+            T = (average1-average2) / sqrt(variance1/n1 + variance2/n2);
+            % Compute the degree of freedom m
+            m = (variance1/n1 + variance2/n2)^2 / ...
+                ((variance1/n1)^2/(n1+1) + (variance2/n2)^2/(n2+1)) - 2;
+            % Compute t_m in function of average1-average2
+            disp(['Using a two-sample tests between ', obj.getName(), ' and ', method.getName(), ', we observe that:']);
+            if average1-average2 >= 0
+                t_m = tinv(obj.alpha, m);
+                % If T > t_m, that means the 2nd method is better than the 1st one
+                if T > t_m
+                    disp(['- the 2nd method is better than the 1st one, with t_m = ', num2str(t_m), ' < ', num2str(T), ' = T']);
+                else
+                    disp(['- we cannot differentiate both methods with T = ', num2str(T), ' <= ', num2str(t_m), ' = t_m']);
+                end
+            else
+                t_m = tinv(1-obj.alpha, m);
+                % If T < t_m, that means the 1st method is better than the 2nd one
+                if T < t_m
+                    disp(['- the 1st method is better than the 2nd one, with T = ', num2str(T), ' < ', num2str(t_m), ' = t_m']);
+                else
+                    disp(['- we cannot differentiate both methods with t_m = ', num2str(t_m), ' <= ', num2str(T), ' = T']);
+                end
+            end
+            disp(' ');
         end
         % Compute the length of the path using sigma and the distance matrix
         function l = sigmaLength(obj, sigma)

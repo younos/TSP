@@ -133,3 +133,22 @@ simulated_annealing_heatbath_mixed_method.runTests;
 SimulatedAnnealingHeatBathMixedMoveTable = simulated_annealing_heatbath_mixed_method.statisticsTable
 simulated_annealing_heatbath_mixed_method.bestSolutionPlot()
 simulated_annealing_heatbath_mixed_method.performancePlot()
+
+%% Two-sample tests
+
+% Best insertion with Shortest edge
+best_insertion_method.twoSampleTest(shortest_edge_method);
+
+% Saving heuristics with Shortest edge
+saving_heuristics_method.twoSampleTest(shortest_edge_method);
+
+% All four variants of Greedy local search
+local_search_swap_method.twoSampleTest(local_search_translation_method);
+local_search_swap_method.twoSampleTest(local_search_inversion_method);
+local_search_swap_method.twoSampleTest(local_search_mixed_method);
+local_search_translation_method.twoSampleTest(local_search_inversion_method);
+local_search_translation_method.twoSampleTest(local_search_mixed_method);
+local_search_inversion_method.twoSampleTest(local_search_mixed_method);
+
+% Metropolis SA with Heat bath SA (only for mixed move versions)
+simulated_annealing_metropolis_mixed_method.twoSampleTest(simulated_annealing_heatbath_mixed_method);
