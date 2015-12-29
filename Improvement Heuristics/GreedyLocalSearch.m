@@ -1,5 +1,5 @@
-classdef LocalSearchHeuristic < Heuristic
-    % Greedy Local Search Heuristic subclass inheriting from class 'Heuristic'
+classdef GreedyLocalSearch < Heuristic
+    % Greedy Local Search subclass inheriting from class 'Heuristic'
     
     properties
         move_type
@@ -9,12 +9,16 @@ classdef LocalSearchHeuristic < Heuristic
     
     methods
         % Constructor
-        function obj = LocalSearchHeuristic( nodes, move_type )
+        function obj = GreedyLocalSearch( nodes, move_type )
             obj = obj@Heuristic(nodes);
             % Set the move_type and compute the total number of moves to be
             % executed
             obj.move_type = move_type;
             obj.n_moves = 10 * nodes.n_total^2;
+        end
+        % Return the name of the method
+        function name = getName(obj)
+            name = strcat(class(obj), obj.move_type);
         end
         % Rewrite the runTests method to initialize because of 'l_values'
         % computation
@@ -49,7 +53,7 @@ classdef LocalSearchHeuristic < Heuristic
             end
         end
         % Get the plot of performance (l_values (min, max, mean) vs curr_moves)
-        function performancePlot(obj, plot_title)
+        function performancePlot(obj)
             % Compute the max value for each line of l_values
             l_max = max(obj.l_values, [], 2);
             % Compute the mean for each line of l_values
@@ -61,7 +65,7 @@ classdef LocalSearchHeuristic < Heuristic
             loglog(1:obj.n_moves, l_max, 'r', ...
                  1:obj.n_moves, l_mean, 'g', ...
                  1:obj.n_moves, l_min, 'b');
-            title(strcat(plot_title, 'Performance'));
+            title(strcat(obj.getName(), 'Performance'));
             xlabel('number of moves');
             ylabel('L(\theta)');
             legend('max', 'mean', 'min');

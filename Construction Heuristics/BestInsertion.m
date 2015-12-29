@@ -1,12 +1,12 @@
-classdef BestInsertionHeuristic < Heuristic
-    % Best Insertion Heuristic subclass inheriting from class 'Heuristic'
+classdef BestInsertion < Heuristic
+    % Best Insertion subclass inheriting from class 'Heuristic'
     
     properties
     end
     
     methods
         % Constructor
-        function obj = BestInsertionHeuristic( nodes )
+        function obj = BestInsertion( nodes )
             obj = obj@Heuristic(nodes);
         end
         % Best Insertion heuristic applied on a Distance Matrix

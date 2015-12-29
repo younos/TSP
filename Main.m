@@ -15,121 +15,121 @@ nodes = Nodes(node_list);
 
 %% Best Insertion method
 
-best_insertion_method = BestInsertionHeuristic(nodes);
+best_insertion_method = BestInsertion(nodes);
 best_insertion_method.runTests;
 BestInsertionTable = best_insertion_method.statisticsTable
-best_insertion_method.bestSolutionPlot('BestInsertion')
+best_insertion_method.bestSolutionPlot()
 
 
 %% Shortest Edge method
 
-shortest_edge_method = ShortestEdgeHeuristic(nodes);
+shortest_edge_method = ShortestEdge(nodes);
 shortest_edge_method.runTests;
 ShortestEdgeTable = shortest_edge_method.statisticsTable
-shortest_edge_method.bestSolutionPlot('ShortestEdge')
+shortest_edge_method.bestSolutionPlot()
 
 
 %% Saving Heuristics
 
-saving_heuristics_method = SavingHeuristic(nodes);
+saving_heuristics_method = SavingHeuristics(nodes);
 saving_heuristics_method.runTests;
 SavingHeuristicsTable = saving_heuristics_method.statisticsTable
-saving_heuristics_method.bestSolutionPlot('SavingHeuristics')
+saving_heuristics_method.bestSolutionPlot()
 
 
 %% Greedy Local Search method using swap moves
 
-local_search_swap_method = LocalSearchHeuristic(nodes, 'swap');
+local_search_swap_method = GreedyLocalSearch(nodes, 'Swap');
 local_search_swap_method.runTests;
 GreedyLocalSearchSwapMoveTable = local_search_swap_method.statisticsTable
-local_search_swap_method.bestSolutionPlot('GreedyLocalSearchSwapMove')
-local_search_swap_method.performancePlot('GreedyLocalSearchSwapMove')
+local_search_swap_method.bestSolutionPlot()
+local_search_swap_method.performancePlot()
 
 %% Greedy Local Search method using translation moves
 
-local_search_translation_method = LocalSearchHeuristic(nodes, 'translation');
+local_search_translation_method = GreedyLocalSearch(nodes, 'Translation');
 local_search_translation_method.runTests;
 GreedyLocalSearchTranslationMoveTable = local_search_translation_method.statisticsTable
-local_search_translation_method.bestSolutionPlot('GreedyLocalSearchTranslationMove')
-local_search_translation_method.performancePlot('GreedyLocalSearchTranslationMove')
+local_search_translation_method.bestSolutionPlot()
+local_search_translation_method.performancePlot()
 
 %% Greedy Local Search method using inversion moves
 
-local_search_inversion_method = LocalSearchHeuristic(nodes, 'inversion');
+local_search_inversion_method = GreedyLocalSearch(nodes, 'Inversion');
 local_search_inversion_method.runTests;
 GreedyLocalSearchInversionMoveTable = local_search_inversion_method.statisticsTable
-local_search_inversion_method.bestSolutionPlot('GreedyLocalSearchInversionMove')
-local_search_inversion_method.performancePlot('GreedyLocalSearchInversionMove')
+local_search_inversion_method.bestSolutionPlot()
+local_search_inversion_method.performancePlot()
 
 %% Greedy Local Search method using mixed moves
 
-local_search_mixed_method = LocalSearchHeuristic(nodes, 'mixed');
+local_search_mixed_method = GreedyLocalSearch(nodes, 'Mixed');
 local_search_mixed_method.runTests;
 GreedyLocalSearchMixedMoveTable = local_search_mixed_method.statisticsTable
-local_search_mixed_method.bestSolutionPlot('GreedyLocalSearchMixedMove')
-local_search_mixed_method.performancePlot('GreedyLocalSearchMixedMove')
+local_search_mixed_method.bestSolutionPlot()
+local_search_mixed_method.performancePlot()
 
 
 %% Simulated Annealing method with Metropolis criterion and swap moves
 
-simulated_annealing_metropolis_swap_method = SimulatedAnnealingHeuristic(nodes, 'metropolis', 'swap');
+simulated_annealing_metropolis_swap_method = SimulatedAnnealing(nodes, 'Metropolis', 'Swap');
 simulated_annealing_metropolis_swap_method.runTests;
 SimulatedAnnealingMetropolisSwapMoveTable = simulated_annealing_metropolis_swap_method.statisticsTable
-simulated_annealing_metropolis_swap_method.bestSolutionPlot('SimulatedAnnealingMetropolisSwapMove')
-simulated_annealing_metropolis_swap_method.performancePlot('SimulatedAnnealingMetropolisSwapMove')
+simulated_annealing_metropolis_swap_method.bestSolutionPlot()
+simulated_annealing_metropolis_swap_method.performancePlot()
 
 %% Simulated Annealing method with Metropolis criterion and translation moves
 
-simulated_annealing_metropolis_translation_method = SimulatedAnnealingHeuristic(nodes, 'metropolis', 'translation');
+simulated_annealing_metropolis_translation_method = SimulatedAnnealing(nodes, 'Metropolis', 'Translation');
 simulated_annealing_metropolis_translation_method.runTests;
 SimulatedAnnealingMetropolisTranslationMoveTable = simulated_annealing_metropolis_translation_method.statisticsTable
-simulated_annealing_metropolis_translation_method.bestSolutionPlot('SimulatedAnnealingMetropolisTranslationMove')
-simulated_annealing_metropolis_translation_method.performancePlot('SimulatedAnnealingMetropolisTranslationMove')
+simulated_annealing_metropolis_translation_method.bestSolutionPlot()
+simulated_annealing_metropolis_translation_method.performancePlot()
 
 %% Simulated Annealing method with Metropolis criterion and inversion moves
 
-simulated_annealing_metropolis_inversion_method = SimulatedAnnealingHeuristic(nodes, 'metropolis', 'inversion');
+simulated_annealing_metropolis_inversion_method = SimulatedAnnealing(nodes, 'Metropolis', 'Inversion');
 simulated_annealing_metropolis_inversion_method.runTests;
 SimulatedAnnealingMetropolisInversionMoveTable = simulated_annealing_metropolis_inversion_method.statisticsTable
-simulated_annealing_metropolis_inversion_method.bestSolutionPlot('SimulatedAnnealingMetropolisInversionMove')
-simulated_annealing_metropolis_inversion_method.performancePlot('SimulatedAnnealingMetropolisInversionMove')
+simulated_annealing_metropolis_inversion_method.bestSolutionPlot()
+simulated_annealing_metropolis_inversion_method.performancePlot()
 
 %% Simulated Annealing method with Metropolis criterion and mixed moves
 
-simulated_annealing_metropolis_mixed_method = SimulatedAnnealingHeuristic(nodes, 'metropolis', 'mixed');
+simulated_annealing_metropolis_mixed_method = SimulatedAnnealing(nodes, 'Metropolis', 'Mixed');
 simulated_annealing_metropolis_mixed_method.runTests;
 SimulatedAnnealingMetropolisMixedMoveTable = simulated_annealing_metropolis_mixed_method.statisticsTable
-simulated_annealing_metropolis_mixed_method.bestSolutionPlot('SimulatedAnnealingMetropolisMixedMove')
-simulated_annealing_metropolis_mixed_method.performancePlot('SimulatedAnnealingMetropolisMixedMove')
+simulated_annealing_metropolis_mixed_method.bestSolutionPlot()
+simulated_annealing_metropolis_mixed_method.performancePlot()
 
 %% Simulated Annealing method with Heat Bath criterion and swap moves
 
-simulated_annealing_heatbath_swap_method = SimulatedAnnealingHeuristic(nodes, 'heatbath', 'swap');
+simulated_annealing_heatbath_swap_method = SimulatedAnnealing(nodes, 'Heatbath', 'Swap');
 simulated_annealing_heatbath_swap_method.runTests;
 SimulatedAnnealingHeatBathSwapMoveTable = simulated_annealing_heatbath_swap_method.statisticsTable
-simulated_annealing_heatbath_swap_method.bestSolutionPlot('SimulatedAnnealingHeatBathSwapMove')
-simulated_annealing_heatbath_swap_method.performancePlot('SimulatedAnnealingHeatBathSwapMove')
+simulated_annealing_heatbath_swap_method.bestSolutionPlot()
+simulated_annealing_heatbath_swap_method.performancePlot()
 
 %% Simulated Annealing method with Heat Bath criterion and translation moves
 
-simulated_annealing_heatbath_translation_method = SimulatedAnnealingHeuristic(nodes, 'heatbath', 'translation');
+simulated_annealing_heatbath_translation_method = SimulatedAnnealing(nodes, 'Heatbath', 'Translation');
 simulated_annealing_heatbath_translation_method.runTests;
 SimulatedAnnealingHeatBathTranslationMoveTable = simulated_annealing_heatbath_translation_method.statisticsTable
-simulated_annealing_heatbath_translation_method.bestSolutionPlot('SimulatedAnnealingHeatBathTranslationMove')
-simulated_annealing_heatbath_translation_method.performancePlot('SimulatedAnnealingHeatBathTranslationMove')
+simulated_annealing_heatbath_translation_method.bestSolutionPlot()
+simulated_annealing_heatbath_translation_method.performancePlot()
 
 %% Simulated Annealing method with Heat Bath criterion and inversion moves
 
-simulated_annealing_heatbath_inversion_method = SimulatedAnnealingHeuristic(nodes, 'heatbath', 'inversion');
+simulated_annealing_heatbath_inversion_method = SimulatedAnnealing(nodes, 'Heatbath', 'Inversion');
 simulated_annealing_heatbath_inversion_method.runTests;
 SimulatedAnnealingHeatBathInversionMoveTable = simulated_annealing_heatbath_inversion_method.statisticsTable
-simulated_annealing_heatbath_inversion_method.bestSolutionPlot('SimulatedAnnealingHeatBathInversionMove')
-simulated_annealing_heatbath_inversion_method.performancePlot('SimulatedAnnealingHeatBathInversionMove')
+simulated_annealing_heatbath_inversion_method.bestSolutionPlot()
+simulated_annealing_heatbath_inversion_method.performancePlot()
 
 %% Simulated Annealing method with Heat Bath criterion and mixed moves
 
-simulated_annealing_heatbath_mixed_method = SimulatedAnnealingHeuristic(nodes, 'heatbath', 'mixed');
+simulated_annealing_heatbath_mixed_method = SimulatedAnnealing(nodes, 'Heatbath', 'Mixed');
 simulated_annealing_heatbath_mixed_method.runTests;
 SimulatedAnnealingHeatBathMixedMoveTable = simulated_annealing_heatbath_mixed_method.statisticsTable
-simulated_annealing_heatbath_mixed_method.bestSolutionPlot('SimulatedAnnealingHeatBathMove')
-simulated_annealing_heatbath_mixed_method.performancePlot('SimulatedAnnealingHeatBathMove')
+simulated_annealing_heatbath_mixed_method.bestSolutionPlot()
+simulated_annealing_heatbath_mixed_method.performancePlot()

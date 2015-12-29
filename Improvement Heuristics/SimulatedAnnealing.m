@@ -1,5 +1,5 @@
-classdef SimulatedAnnealingHeuristic < Heuristic
-    % Local Search Heuristic subclass inheriting from class 'Heuristic'
+classdef SimulatedAnnealing < Heuristic
+    % Simulated Annealing subclass inheriting from class 'Heuristic'
     
     properties
         criterion
@@ -14,13 +14,17 @@ classdef SimulatedAnnealingHeuristic < Heuristic
     
     methods
         % Constructor
-        function obj = SimulatedAnnealingHeuristic(nodes, criterion, move_type)
+        function obj = SimulatedAnnealing(nodes, criterion, move_type)
             obj = obj@Heuristic(nodes);
             % Set the criterion and the move_type
             obj.criterion = criterion;
             obj.move_type = move_type;
             % Generate the initial temperature only once
             obj.generateInitTemp();
+        end
+        % Return the name of the method
+        function name = getName(obj)
+            name = strcat(class(obj), obj.criterion, obj.move_type);
         end
         % Generate the initial temperature 'init_temp'
         function obj = generateInitTemp( obj )
@@ -92,7 +96,7 @@ classdef SimulatedAnnealingHeuristic < Heuristic
                 % difference of length
                 [sigma_new, delta] = obj.smallMove(sigma, obj.move_type);
                 % Set the new solution based on the criterion used
-                if strcmp(obj.criterion,'metropolis')
+                if strcmp(obj.criterion,'Metropolis')
                     % If the difference is negative or null, or based on the
                     % acceptance probability, accept sigma_new
                     if delta <= 0 || rand(1) < exp(-delta/new_temp)
@@ -131,7 +135,7 @@ classdef SimulatedAnnealingHeuristic < Heuristic
             end
         end
         % Get the plot of performance (l_values (min, max, mean) vs temperature)
-        function performancePlot(obj, plot_title)
+        function performancePlot(obj)
             % Initialize l_values (1st column for temperature values, 2nd
             % column for min, 3rd for max and 4th for mean)
             obj.l_values = [];
@@ -142,7 +146,7 @@ classdef SimulatedAnnealingHeuristic < Heuristic
             plot(obj.l_values(:,1), obj.l_values(:,2), 'r', ...
                  obj.l_values(:,1), obj.l_values(:,3), 'g', ...
                  obj.l_values(:,1), obj.l_values(:,4), 'b');
-            title(strcat(plot_title, 'Performance'));
+            title(strcat(obj.getName(), 'Performance'));
             xlabel('temperature');
             ylabel('L(\theta)');
             legend('max', 'mean', 'min');

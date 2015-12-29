@@ -1,12 +1,12 @@
-classdef ShortestEdgeHeuristic < Heuristic
-    % Shortest Edge Heuristic subclass inheriting from class 'Heuristic'
+classdef ShortestEdge < Heuristic
+    % Shortest Edge subclass inheriting from class 'Heuristic'
     
     properties
     end
     
     methods
         % Constructor
-        function obj = ShortestEdgeHeuristic( nodes )
+        function obj = ShortestEdge( nodes )
             obj = obj@Heuristic(nodes);
         end
         % Shortest Edge heuristic applied on a Distance Matrix
@@ -27,7 +27,7 @@ classdef ShortestEdgeHeuristic < Heuristic
                     % Transform index as row/column coordinates
                     [i,j] = ind2sub([obj.nodes.n_total,obj.nodes.n_total], index);
                     % Check if new edge respects the rules
-                    if ShortestEdgeHeuristic.RespectRules(adjacency_matrix, i, j)
+                    if ShortestEdge.respectRules(adjacency_matrix, i, j)
                         % If yes we can go out of the loop
                         break;
                     else
@@ -64,7 +64,7 @@ classdef ShortestEdgeHeuristic < Heuristic
         % Check if when inserting edge between node i and j, we respect the
         % following rule/constraint:
         % 1. No cycle with less than n nodes
-        function respects = RespectRules( adjacency_matrix, i, j )
+        function respects = respectRules( adjacency_matrix, i, j )
             % Insert edge 'ij' in AM
             adjacency_matrix(i,j) = 1;
             adjacency_matrix(j,i) = 1;

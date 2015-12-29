@@ -28,6 +28,10 @@ classdef (Abstract) Heuristic < handle
             obj.sigma_array = zeros(obj.nb_it,obj.nodes.n_total);
             obj.length_array = zeros(obj.nb_it,1);
         end
+        % Return the name of the method
+        function name = getName(obj)
+            name = class(obj);
+        end
         % Apply the tests with the 'findShortestPath' method on the
         % Distance Matrix
         function runTests( obj )
@@ -57,7 +61,7 @@ classdef (Abstract) Heuristic < handle
             stable = table(average, minimum, maximum, confidence_interval);
         end
         % Get the plot of the best solution
-        function bestSolutionPlot(obj, plot_title)
+        function bestSolutionPlot(obj)
             % Compute the index of the solution having the minimum length
             [~, i] = min(obj.length_array);
             % Generate the sorted node list using sigma
@@ -66,7 +70,7 @@ classdef (Abstract) Heuristic < handle
             figure('Position', [100, 100, 1049, 895]);
             plot(sorted_node_list(:, 2), sorted_node_list(:, 3), '-o');
             text(sorted_node_list(:, 2)+0.4, sorted_node_list(:, 3), num2str(sorted_node_list(:, 1)));
-            title(strcat(plot_title, 'BestSolution'));
+            title(strcat(obj.getName(), 'BestSolution'));
             xlabel('x coordinate');
             ylabel('y coordinate');
         end
@@ -112,7 +116,7 @@ classdef (Abstract) Heuristic < handle
             i_plus = mod(i, obj.nodes.n_total) + 1;
             % Depending on the small move the method will be different
             switch type
-                case 'swap'
+                case 'Swap'
                     % Choose node j to swap with i, s.t. i != j
                     j = randi(obj.nodes.n_total);
                     while i == j
@@ -139,7 +143,7 @@ classdef (Abstract) Heuristic < handle
                             - obj.nodes.distance_matrix(sigma(i_minus),sigma(i)) - obj.nodes.distance_matrix(sigma(i),sigma(i_plus)) ...
                             - obj.nodes.distance_matrix(sigma(j_minus),sigma(j)) - obj.nodes.distance_matrix(sigma(j),sigma(j_plus));
                     end
-                case 'translation'
+                case 'Translation'
                     % Choose node j to translate with i, s.t. i != j and i_plus != j
                     j = randi(obj.nodes.n_total);
                     while i == j || i_plus == j
@@ -167,7 +171,7 @@ classdef (Abstract) Heuristic < handle
                             + obj.nodes.distance_matrix(sigma(j_minus),sigma(j_plus)) - obj.nodes.distance_matrix(sigma(i),sigma(i_plus)) ...
                             - obj.nodes.distance_matrix(sigma(j_minus),sigma(j)) - obj.nodes.distance_matrix(sigma(j),sigma(j_plus));
                     end
-                case 'inversion'
+                case 'Inversion'
                     % Choose node j to swap with i, s.t. i != j
                     j = randi(obj.nodes.n_total);
                     while i == j
@@ -187,7 +191,7 @@ classdef (Abstract) Heuristic < handle
                     end
                     % If i+ = j or j+ = i, restart
                     if i_plus == j || j_plus == i
-                        [sigma_new, delta] = obj.smallMove(sigma, 'inversion');
+                        [sigma_new, delta] = obj.smallMove(sigma, 'Inversion');
                         return;
                     end
                     % Inverse subcycle i+1 to j in sigma_new
@@ -202,11 +206,11 @@ classdef (Abstract) Heuristic < handle
                     move_nb = randi(3);
                     switch move_nb
                         case 1
-                            [sigma_new, delta] = obj.smallMove(sigma, 'swap');
+                            [sigma_new, delta] = obj.smallMove(sigma, 'Swap');
                         case 2
-                            [sigma_new, delta] = obj.smallMove(sigma, 'translation');
+                            [sigma_new, delta] = obj.smallMove(sigma, 'Translation');
                         otherwise
-                            [sigma_new, delta] = obj.smallMove(sigma, 'inversion');
+                            [sigma_new, delta] = obj.smallMove(sigma, 'Inversion');
                     end
             end
         end

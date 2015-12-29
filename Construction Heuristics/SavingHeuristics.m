@@ -1,12 +1,12 @@
-classdef SavingHeuristic < Heuristic
-    % Saving Heuristic subclass inheriting from class 'Heuristic'
+classdef SavingHeuristics < Heuristic
+    % Saving Heuristics subclass inheriting from class 'Heuristic'
     
     properties
     end
     
     methods
         % Constructor
-        function obj = SavingHeuristic( nodes )
+        function obj = SavingHeuristics( nodes )
             obj = obj@Heuristic(nodes);
         end
         % Saving heuristic applied on a Distance Matrix
@@ -36,7 +36,7 @@ classdef SavingHeuristic < Heuristic
                     % Transform index as row/column coordinates
                     [i,j] = ind2sub([obj.nodes.n_total,obj.nodes.n_total], index);
                     % Check if nodes choosen are not in the same cycle
-                    if SavingHeuristic.RespectRules(adjacency_matrix, i, j, w)
+                    if SavingHeuristics.respectRules(adjacency_matrix, i, j, w)
                         % If no we can go out of the loop
                         break;
                     else
@@ -75,7 +75,7 @@ classdef SavingHeuristic < Heuristic
     end
     methods (Static)
         % Check if node i and j are not already in same sub cycle
-        function respects = RespectRules( adjacency_matrix, i, j, w)
+        function respects = respectRules( adjacency_matrix, i, j, w)
             % Starts from i and go to 2nd neighbour of i (i.e. not w)
             % If once we reach j, that means we create a cycle with less
             % than n nodes
