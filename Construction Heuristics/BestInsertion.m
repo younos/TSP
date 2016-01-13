@@ -38,7 +38,7 @@ classdef BestInsertion < Heuristic
                 for i=1:n_sigma
                     delta_length(i) = obj.nodes.distance_matrix(sigma(i), node) ...
                         + obj.nodes.distance_matrix(node, sigma(mod(i,n_sigma)+1)) ...
-                        - obj.nodes.distance_matrix(sigma(i), mod(i,n_sigma)+1);
+                        - obj.nodes.distance_matrix(sigma(i), sigma(mod(i,n_sigma)+1));
                 end
                 % Check at which postion we have the minimum
                 [~, min_index] = min(delta_length);
